@@ -102,7 +102,7 @@ document.querySelectorAll('.js-add-to-cart')
       }
       (2 and 5 are ids that are returned when we call setTimeout).
 */
-      const previousTimeoutId =  addedMessageTimeouts(productId);
+      const previousTimeoutId =  addedMessageTimeouts[productId];
 
       if(previousTimeoutId){
         clearTimeout(previousTimeoutId);
