@@ -1,5 +1,6 @@
 import {cart} from '../data/cart.js';
 import {products} from '../data/products.js';
+import { formatCurrency } from './utils/money.js';
 
 // First we get the id from cart [2 id in cart].
 // Then we check if that id taken from cart is present in products.js file.
@@ -12,7 +13,7 @@ let cartSummaryHTML=''; // complusorly have to provide this as empty string
 cart.forEach((cartItem) => {
   let productID = cartItem.productId;
 
-  let matchingProduct;
+  let matchingProduct;      // this is the current product which has it's all details
 
   products.forEach((product) => {
     if(product.id === productID){
@@ -37,7 +38,7 @@ cart.forEach((cartItem) => {
         ${matchingProduct.name}
         </div>
         <div class="product-price">
-          $${matchingProduct.priceCents/100}
+          $${formatCurrency(matchingProduct.priceCents)}
         </div>
         <div class="product-quantity">
           <span>
@@ -59,7 +60,7 @@ cart.forEach((cartItem) => {
         <div class="delivery-option">
           <input type="radio" checked
             class="delivery-option-input"
-            name="delivery-option-1">
+            name="delivery-option-${matchingProduct.id}">
           <div>
             <div class="delivery-option-date">
               Tuesday, June 21
@@ -72,7 +73,7 @@ cart.forEach((cartItem) => {
         <div class="delivery-option">
           <input type="radio"
             class="delivery-option-input"
-            name="delivery-option-1">
+            name="delivery-option-${matchingProduct.id}">
           <div>
             <div class="delivery-option-date">
               Wednesday, June 15
@@ -85,7 +86,7 @@ cart.forEach((cartItem) => {
         <div class="delivery-option">
           <input type="radio"
             class="delivery-option-input"
-            name="delivery-option-1">
+            name="delivery-option-${matchingProduct.id}">
           <div>
             <div class="delivery-option-date">
               Monday, June 13
