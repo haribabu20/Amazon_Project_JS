@@ -1,4 +1,11 @@
-// generating HTML 
+import {cart, addToCart, calculateCartQuantity} from '../data/cart.js';
+import {products} from '../data/products.js';
+import { formatCurrency } from './utils/money.js';
+
+
+const addedMessageTimeouts = {};
+
+
 let productsHTML = '';
 products.forEach((product)=>{
    productsHTML += `
@@ -21,11 +28,11 @@ products.forEach((product)=>{
       </div>
 
       <div class="product-price">
-      $${(product.priceCents/100.).toFixed(2)} 
+      $${formatCurrency(product.priceCents)} 
       </div>
 
       <div class="product-quantity-container">
-        <select>
+        <select class="js-quantity-selector-${product.id}">
           <option selected value="1">1</option>
           <option value="2">2</option>
           <option value="3">3</option>
@@ -41,7 +48,7 @@ products.forEach((product)=>{
 
       <div class="product-spacer"></div>
 
-      <div class="added-to-cart">
+      <div class="added-to-cart js-added-to-cart-${product.id}">
         <img src="images/icons/checkmark.png">
         Added
       </div>
@@ -54,48 +61,44 @@ products.forEach((product)=>{
   
 });
 
-// Putting in Webpage
+updateCartQuantity();
+
 document.querySelector('.js-products-grid').innerHTML = productsHTML;
-
-
 
 document.querySelectorAll('.js-add-to-cart')
   .forEach((button)=>{
     button.addEventListener('click',()=>{
-      let productId = button.dataset.productId; // gives the product name of selected add to cart button
-      let matchingItem;
-
-
-      //updating the cart [products]
-      cart.forEach((item)=>{
-        if(productId === item.productId){
-          matchingItem = item;
-        }
-      });
-
-      if(matchingItem){
-        matchingItem.quantity++;
-      }
-      else{
-        cart.push({
-          productId: productId,
-          quantity:1
-        });
-      }
-
-
-      // calculating the total cartQuantity [icon display]
-      let cartQuantity = 0;
-      cart.forEach((item)=>{
-        cartQuantity += item.quantity;
-      });
-      document.querySelector('.js-cart-quantity').innerHTML = cartQuantity;
-
-      
+      let {productId} = button.dataset;    
+      addToCart(productId);
+      addedTextDisplay(productId);
+      updateCartQuantity();
       })    
-
-
     })
+
+// Inside this methd we notice that the same code is being repeat in checkout.js file as well. Hence for all these common steps, we'll create a function in cart to calculate the cartQuantity.
+function updateCartQuantity(){
+  let cartQuantity = calculateCartQuantity();
+  document.querySelector('.js-cart-quantity').innerHTML = cartQuantity;
+}
+
+
+function addedTextDisplay(productId){
+  const addedMessage = document.querySelector(`.js-added-to-cart-${productId}`);
+  addedMessage.classList.add('added-to-cart-visible');
+  
+  const previousTimeoutId =  addedMessageTimeouts[productId];
+
+  if(previousTimeoutId){
+    clearTimeout(previousTimeoutId);
+  }
+
+  const timeoutId = setTimeout(()=>{
+    addedMessage.classList.remove('added-to-cart-visible');
+  },2000);
+
+  addedMessageTimeouts[productId] = timeoutId;
+}
+
 
 
 
