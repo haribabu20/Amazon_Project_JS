@@ -1,4 +1,4 @@
-import {cart, addToCart} from '../data/cart.js';
+import {cart, addToCart, calculateCartQuantity} from '../data/cart.js';
 import {products} from '../data/products.js';
 import { formatCurrency } from './utils/money.js';
 
@@ -61,6 +61,8 @@ products.forEach((product)=>{
   
 });
 
+updateCartQuantity();
+
 document.querySelector('.js-products-grid').innerHTML = productsHTML;
 
 document.querySelectorAll('.js-add-to-cart')
@@ -73,12 +75,9 @@ document.querySelectorAll('.js-add-to-cart')
       })    
     })
 
-
+// Inside this methd we notice that the same code is being repeat in checkout.js file as well. Hence for all these common steps, we'll create a function in cart to calculate the cartQuantity.
 function updateCartQuantity(){
-  let cartQuantity = 0;
-  cart.forEach((cartItem)=>{
-    cartQuantity += cartItem.quantity;
-  });
+  let cartQuantity = calculateCartQuantity();
   document.querySelector('.js-cart-quantity').innerHTML = cartQuantity;
 }
 
