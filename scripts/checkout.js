@@ -128,9 +128,11 @@ document.querySelectorAll('.js-delete-link')
   .forEach((link) => {
     link.addEventListener('click', () => {
       let productId = link.dataset.productId;  // this shld come inside, as imade it as a scope.
-      console.log(productId);
-    })
-  })
+
+      const container = document.querySelector(`.js-cart-item-container-${productId}`);
+      container.classList.add('is-editing-quantity');  // did a mistake here, placed dot in front for targeting the class
+    });
+  });
 
   function updateCartQuantity(){
 
