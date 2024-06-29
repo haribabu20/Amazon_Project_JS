@@ -219,6 +219,21 @@
   display: none;
 }
 
+/* 
+  classList.add() : 
+
+  If i click update link, then the classes having the name as 
+  '.is-editing-quantity' will be executed. hence the below 4 methods will be 
+   executed. first 2 methods tells that input and save will follows it's original appeareance. [i.e it will be present.]
+   Similarly, third and fourth methods tells that, it removes from the page.
+
+  classList.remove() : 
+
+  it follows the vice versa steps which we used above.
+  instead of populating in UI, it disappears.
+ */
+
+ 
 .is-editing-quantity .quantity-input{
   display: initial;
 }

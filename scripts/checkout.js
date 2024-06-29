@@ -50,7 +50,8 @@ cart.forEach((cartItem) => {
             Update
           </span>
           <input class="quantity-input">
-          <span class="save-quantity-link link-primary">
+          <span class="save-quantity-link link-primary js-save-link"
+            data-product-id = "${matchingProduct.id}">
             Save
           </span>
           <span class="delete-quantity-link link-primary js-delete-link" 
@@ -127,12 +128,22 @@ document.querySelectorAll('.js-delete-link')
   document.querySelectorAll('.js-update-link')
   .forEach((link) => {
     link.addEventListener('click', () => {
-      let productId = link.dataset.productId;  // this shld come inside, as imade it as a scope.
+      let productId = link.dataset.productId; 
 
       const container = document.querySelector(`.js-cart-item-container-${productId}`);
-      container.classList.add('is-editing-quantity');  // did a mistake here, placed dot in front for targeting the class
+      container.classList.add('is-editing-quantity');  // This class main motive is to add the 2 element [input and save] in page when we clicked update link
     });
   });
+
+  document.querySelectorAll('.js-save-link')
+    .forEach((link) => {
+      link.addEventListener('click', () => {
+        let productId = link.dataset.productId;
+
+        const container = document.querySelector(`.js-cart-item-container-${productId}`);
+        container.classList.remove('is-editing-quantity');  
+      });
+    });
 
   function updateCartQuantity(){
 
