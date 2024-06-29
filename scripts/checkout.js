@@ -43,7 +43,7 @@ cart.forEach((cartItem) => {
         </div>
         <div class="product-quantity">
           <span>
-            Quantity: <span class="quantity-label">${cartItem.quantity}</span>
+            Quantity: <span class="quantity-label js-quantity-label-${matchingProduct.id}">${cartItem.quantity}</span>
           </span>
           <span class="update-quantity-link link-primary js-update-link"
             data-product-id = "${matchingProduct.id}">
@@ -140,14 +140,30 @@ document.querySelectorAll('.js-delete-link')
       link.addEventListener('click', () => {
         let productId = link.dataset.productId;
         
-        
+       // Here's an example of a feature we can add: validation.
+       // Note: we need to move the quantity-related code up
+       // because if the new quantity is not valid, we should
+       // return early and NOT run the rest of the code. This
+       // technique is called an "early return".
+
+        let quantityInput = document.querySelector(`.js-quantity-input-${productId}`);
+        const newQuantity = Number(quantityInput.value);
+
+        if(newQuantity < 0 || newQuantity >= 1000){
+          alert('Quantity must be atleast 0 and less than 1000');
+          return;     // Early Return
+        }
+
+        updateQuantity(productId, newQuantity);  // else part
+
+
         const container = document.querySelector(`.js-cart-item-container-${productId}`);
         container.classList.remove('is-editing-quantity');  
 
-        let quantityInput = document.querySelector(`.js-quantity-input-${productId}`).value;
-        const newQuantity = Number(quantityInput.value);
-        updateQuantity(productId, newQuantity);
+        const quantityLabel = document.querySelector(`.js-quantity-label-${productId}`);
+        quantityLabel.innerHTML = newQuantity;
 
+        updateCartQuantity();
       });
     });
 
@@ -157,8 +173,8 @@ document.querySelectorAll('.js-delete-link')
     document.querySelector('.js-return-to-home-link').innerHTML = `${cartQuantity} items`;
   }
 
-  updateCartQuantity();
   
+  updateCartQuantity();
 
 
 
