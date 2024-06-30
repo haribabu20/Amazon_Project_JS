@@ -4,31 +4,41 @@ import { formatCurrency } from './utils/money.js';
 import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js';
 import {deliveryOptions} from '../data/deliveryOptions.js';
 
-const today = dayjs();
-const added = today.add(7, 'year');
-const format = added.format('DD MM YYYY, h:mm:s');
-console.log(format);
 
 let cartSummaryHTML=''; 
 
 cart.forEach((cartItem) => {
+  
+  // productID
   let productID = cartItem.productId;
-
-  let matchingProduct;     
+  let matchingProduct;     // main productID
 
   products.forEach((product) => {
     if(product.id === productID){
       matchingProduct = product;
     }
-  })
+  });
 
+  // deliveryOptionID
+  let deliveryOptionId = cartItem.deliveryOptionId;
+  let deliveryOption;      // main deliveryId
+
+  deliveryOptions.forEach((option) => {
+    if(deliveryOptionId === option.id){
+      deliveryOption = option;
+    }
+  });
+
+  const today = dayjs();
+  const deliveryDate = today.add(deliveryOption.deliveryDays,'days');
+  const dateString = deliveryDate.format('dddd, MMMM D');
 
   cartSummaryHTML += `
   
   <div class="cart-item-container 
       js-cart-item-container-${matchingProduct.id}">
     <div class="delivery-date">
-      Delivery date: Tuesday, June 21
+      Delivery date: ${dateString}
     </div>
 
     <div class="cart-item-details-grid">
@@ -90,7 +100,7 @@ function deliveryOptionsHTML(matchingProduct, cartItem) {
       : `$${formatCurrency(deliveryOption.priceCents)} -`;
 
     //RadioButton
-    let isChecked = deliveryOption.id === cartItem.deliveryOptionID;  // We only want to be checked if this deliveryOption id matched with the delivery option id in the cart
+    let isChecked = deliveryOption.id === cartItem.deliveryOptionId;  // We only want to be checked if this deliveryOption id matched with the delivery option id in the cart
 
 
     html += 
