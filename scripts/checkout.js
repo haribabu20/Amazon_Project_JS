@@ -1,19 +1,19 @@
 import {cart, removeFromCart, calculateCartQuantity, updateQuantity} from '../data/cart.js';
 import {products} from '../data/products.js';
 import { formatCurrency } from './utils/money.js';
+import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js';
 
-// First we get the id from cart [2 id in cart].
-// Then we check if that id taken from cart is present in products.js file.
-// if yes, then save that in separate variable called matchingProduct.
-// Matching product will be having all the required details about the products like image, names, prices, etc
-// This method is called deduplicating or normalising the data
+const today = dayjs();
+const added = today.add(7, 'year');
+const format = added.format('DD MM YYYY, h:mm:s');
+console.log(format);
 
-let cartSummaryHTML=''; // complusorly have to provide this as empty string
+let cartSummaryHTML=''; 
 
 cart.forEach((cartItem) => {
   let productID = cartItem.productId;
 
-  let matchingProduct;      // this is the current product which has it's all details
+  let matchingProduct;     
 
   products.forEach((product) => {
     if(product.id === productID){
@@ -140,12 +140,6 @@ document.querySelectorAll('.js-delete-link')
       link.addEventListener('click', () => {
         let productId = link.dataset.productId;
         
-       // Here's an example of a feature we can add: validation.
-       // Note: we need to move the quantity-related code up
-       // because if the new quantity is not valid, we should
-       // return early and NOT run the rest of the code. This
-       // technique is called an "early return".
-
         let quantityInput = document.querySelector(`.js-quantity-input-${productId}`);
         const newQuantity = Number(quantityInput.value);
 
@@ -175,8 +169,6 @@ document.querySelectorAll('.js-delete-link')
 
   
   updateCartQuantity();
-
-
 
 
   
