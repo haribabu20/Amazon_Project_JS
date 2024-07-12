@@ -4,6 +4,7 @@ import { formatCurrency } from '../utils/money.js';
 import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js';
 import {deliveryOptions, getdeliveryOption} from '../../data/deliveryOptions.js';
 import {renderPaymentSummary} from './paymentSummay.js';
+import {renderCheckoutHeader} from './checkoutHeader.js';
 
 export function renderOrderSummary(){
 
@@ -129,8 +130,10 @@ export function renderOrderSummary(){
     const container = document.querySelector(`.js-cart-item-container-${productId}`);
     container.remove();
 
+    renderCheckoutHeader();
     renderOrderSummary();
     renderPaymentSummary();
+    
     
   })
   });
