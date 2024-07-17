@@ -95,8 +95,13 @@ class Cart {
 const cart = new Cart();
 const businesscart = new Cart();
 
+
 cart.localStorageKey = 'cart-oop';
 businesscart.localStorageKey = 'cart-business';
+
+cart.loadFromStorage();
+businesscart.loadFromStorage();
+
 
 console.log(cart);
 console.log(businesscart);
