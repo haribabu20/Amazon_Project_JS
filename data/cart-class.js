@@ -1,17 +1,17 @@
 
 class Cart {
-  cartItems = undefined;
-  localStorageKey = undefined;
+  cartItems;
+  #localStorageKey;
 
 
   constructor(localStorageKey){
-    this.localStorageKey = localStorageKey;
-    this.loadFromStorage();
+    this.#localStorageKey = localStorageKey;
+    this.#loadFromStorage();
   }
 
 
-  loadFromStorage(){
-    this.cartItems = JSON.parse(localStorage.getItem(this.localStorageKey)); // converts from string to array uising parse() as output from JSON will be string 
+  #loadFromStorage(){
+    this.cartItems = JSON.parse(localStorage.getItem(this.#localStorageKey)); // converts from string to array uising parse() as output from JSON will be string 
   
     if(!this.cartItems){    // initally it will be null for cart before we select any product, so at that time cart will provide null value. to avoid such scenario, we use default values if the cart is null
       this.cartItems = [
@@ -30,7 +30,7 @@ class Cart {
   }
 
   saveToStorage(){
-    localStorage.setItem(this.localStorageKey,JSON.stringify(this.cartItems));
+    localStorage.setItem(this.#localStorageKey,JSON.stringify(this.cartItems));
   }
   
   addToCart(productId){
