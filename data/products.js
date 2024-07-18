@@ -47,7 +47,7 @@ const product1 = new product({
       "apparel"
     ]
   });
-console.log(product1);
+//console.log(product1);
 
 
 
@@ -731,4 +731,10 @@ export const products = [
     },
     priceCents: 2999
   }
-];
+].map((productDetails) => {
+  return new product(productDetails);
+})
+
+console.log(products);
+
+
