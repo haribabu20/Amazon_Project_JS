@@ -4,6 +4,12 @@ class Cart {
   localStorageKey = undefined;
 
 
+  constructor(localStorageKey){
+    this.localStorageKey = localStorageKey;
+    this.loadFromStorage();
+  }
+
+
   loadFromStorage(){
     this.cartItems = JSON.parse(localStorage.getItem(this.localStorageKey)); // converts from string to array uising parse() as output from JSON will be string 
   
@@ -92,15 +98,8 @@ class Cart {
 
 
 
-const cart = new Cart();
-const businesscart = new Cart();
-
-
-cart.localStorageKey = 'cart-oop';
-businesscart.localStorageKey = 'cart-business';
-
-cart.loadFromStorage();
-businesscart.loadFromStorage();
+const cart = new Cart('cart-oop');
+const businesscart = new Cart('cart-business');
 
 
 console.log(cart);
