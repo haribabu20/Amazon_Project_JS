@@ -22,21 +22,51 @@ loadProducts(() => {
 */
 
 
+
+/*
+
 // Promise
 new Promise((resolve) => {
   loadProducts(() => {
     resolve();
   });
+
 }).then(() => {
   return new Promise((resolve) => {
     loadCart(() => {
       resolve();
     });
   })
+
 }).then(() => {
   renderOrderSummary();
   renderPaymentSummary();
   renderCheckoutHeader();
 });
+
+*/
+
+
+// Promise All
+
+Promise.all([
+  new Promise((resolve) => {
+    loadProducts(() => {
+      resolve('value1');
+    });
+  }),
+
+  new Promise((resolve) => {
+    loadCart(() => {
+      resolve();
+    });
+  })
+
+]).then((values) => {
+  renderOrderSummary();
+  renderPaymentSummary();
+  renderCheckoutHeader();
+  console.log(values);
+})
 
 
