@@ -770,7 +770,7 @@ export function loadProducts(fun){
   xhr.open('Get','https://supersimplebackend.dev/products');
   xhr.send();
 }
-loadProducts();
+
 
 
 
