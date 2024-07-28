@@ -5,10 +5,34 @@ import { renderPaymentSummary } from './checkout/paymentSummay.js';
 //import '../data/cart-class.js';
 //import '../data/backend-practice.js';
 
-loadProducts(() => {
-  renderOrderSummary();
-  renderPaymentSummary();
-  renderCheckoutHeader();
-});
+
+new Promise((resolve) => {
+  console.log('start promise');
+  loadProducts(() => {
+    console.log('finished loading');
+    resolve();
+  });
+}).then(() => {
+  console.log('next step');
+})
+
+//Console:
+
+/*
+start promise
+load products
+finished loading
+next step
+
+*/
+
+
+
+
+// loadProducts(() => {
+//   renderOrderSummary();
+//   renderPaymentSummary();
+//   renderCheckoutHeader();
+// });
 
 
