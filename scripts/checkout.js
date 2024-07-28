@@ -1,3 +1,4 @@
+import { loadCart } from '../data/cart.js';
 import { loadProducts } from '../data/products.js';
 import { renderCheckoutHeader } from './checkout/checkoutHeader.js';
 import { renderOrderSummary } from './checkout/orderSummary.js';
@@ -6,33 +7,36 @@ import { renderPaymentSummary } from './checkout/paymentSummay.js';
 //import '../data/backend-practice.js';
 
 
-new Promise((resolve) => {
-  console.log('start promise');
-  loadProducts(() => {
-    console.log('finished loading');
-    resolve();
-  });
-}).then(() => {
-  console.log('next step');
-})
-
-//Console:
-
 /*
-start promise
-load products
-finished loading
-next step
+
+// Using call Back
+
+loadProducts(() => {
+  loadCart(() => {
+    renderOrderSummary();
+    renderPaymentSummary();
+    renderCheckoutHeader();
+  })
+});
 
 */
 
 
-
-
-// loadProducts(() => {
-//   renderOrderSummary();
-//   renderPaymentSummary();
-//   renderCheckoutHeader();
-// });
+// Promise
+new Promise((resolve) => {
+  loadProducts(() => {
+    resolve();
+  });
+}).then(() => {
+  return new Promise((resolve) => {
+    loadCart(() => {
+      resolve();
+    });
+  })
+}).then(() => {
+  renderOrderSummary();
+  renderPaymentSummary();
+  renderCheckoutHeader();
+});
 
 
