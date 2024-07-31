@@ -752,6 +752,10 @@ export const products = [
 */
 
 
+
+
+// using XMLHttpRequest()
+
 export let products = [];
 
 export function loadProducts(fun){
@@ -771,6 +775,35 @@ export function loadProducts(fun){
   xhr.open('Get','https://supersimplebackend.dev/products');
   xhr.send();
 }
+
+
+// using fetch()
+
+export function loadProductsFetch(){  
+  const promise = fetch(
+    'https://supersimplebackend.dev/products'
+  ).then((response) => {
+    return response.json();
+  }).then((productData) => {
+    products = productData.map((productDetails) => {
+      if(productDetails.type === 'clothing'){
+        return new Clothing(productDetails);
+      }
+      return new Product(productDetails); 
+    });
+    console.log('load products');
+  });
+  return promise;
+}
+
+loadProductsFetch().then(() => {
+  console.log('next step');
+})
+
+
+
+
+
 
 
 
