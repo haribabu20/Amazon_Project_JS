@@ -47,19 +47,6 @@ new Promise((resolve) => {
 */
 
 
-async function loadPage(){
-  console.log('load page');
-
-  await loadProductsFetch();
-
-  return 'next step';
-}
-
-loadPage().then((value) => {
-  console.log(value);
-})
-
-
 
 /*
 
@@ -82,3 +69,26 @@ Promise.all([
 })
 
 */
+
+
+
+async function loadPage(){
+  
+  await loadProductsFetch();
+
+  await new Promise((resolve) => {
+    loadCart(() => {
+      resolve();
+    });
+  });
+
+  renderOrderSummary();
+  renderPaymentSummary();
+  renderCheckoutHeader();
+
+}
+
+loadPage();
+
+
+
