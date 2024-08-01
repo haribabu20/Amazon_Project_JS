@@ -75,11 +75,14 @@ Promise.all([
 async function loadPage(){
 
   try{
+
+    //throw 'error1';
     await loadProductsFetch();
 
-    await new Promise((resolve) => {
+    const value = await new Promise((resolve, reject) => {
       loadCart(() => {
-        resolve();
+        //reject('error3');
+        resolve('value3');
       });
     });
   
