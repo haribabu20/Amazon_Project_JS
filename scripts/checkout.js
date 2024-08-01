@@ -47,6 +47,22 @@ new Promise((resolve) => {
 */
 
 
+async function loadPage(){
+  console.log('load page');
+
+  await loadProductsFetch();
+
+  return 'next step';
+}
+
+loadPage().then((value) => {
+  console.log(value);
+})
+
+
+
+/*
+
 // Promise All
 
 Promise.all([
@@ -65,4 +81,4 @@ Promise.all([
   console.log(values);
 })
 
-
+*/
