@@ -2,6 +2,7 @@ import {cart} from '../../data/cart.js';
 import {getProduct, products} from '../../data/products.js';
 import {getdeliveryOption} from '../../data/deliveryOptions.js';
 import {formatCurrency} from '../utils/money.js';
+import { addOrders } from '../../data/orders.js';
 
 export function renderPaymentSummary(){
 
@@ -88,7 +89,7 @@ export function renderPaymentSummary(){
         })
       });
       const order = await response.json();
-      console.log(order);
+      addOrders(order);
       
     });
   
