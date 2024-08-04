@@ -82,6 +82,47 @@ const car2 = new Car({
  car2.displayInfo(); // open
 
 
+class RaceCar extends Car{
+  accelaration;
 
+  constructor(carDetails){
+    super(carDetails);
+    this.accelaration = carDetails.accelaration;
+  }
+
+  go(){
+    this.speed += this.accelaration;
+
+    if(this.speed > 300){
+      this.speed = 300;
+    }
+  }
+
+  openTrunk(){
+    console.log('Race cars do not have a trunk.');
+
+  }
+
+  closeTrunk(){
+    console.log('Race cars do not have a trunk.');
+  }
+
+}
+
+const raceCar = new RaceCar({
+  brand: 'McLaren',
+  model: 'F1',
+  accelaration: 20
+});
+
+
+raceCar.go();
+raceCar.go();
+raceCar.go();
+raceCar.displayInfo(); // 60 km/hr trunk: closed
+raceCar.openTrunk();
+raceCar.displayInfo(); // 60 km/hr trunk: closed
+raceCar.brake();
+raceCar.displayInfo(); // 55 km/hr trunk: closed
 
 
