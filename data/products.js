@@ -1,3 +1,4 @@
+import{formatCurrency} from '../scripts/utils/money.js';
 
 // Used to get the productId out from the Iterated cart product
 export function getProduct(productId){
@@ -13,6 +14,55 @@ export function getProduct(productId){
 }
 
 
+class Product{
+  id;
+  image;
+  name;
+  rating;
+  priceCents;
+
+
+  constructor(productDetails){
+    this.id = productDetails.id;
+    this.image = productDetails.image;
+    this.name = productDetails.name;
+    this.rating = productDetails.rating;
+    this.priceCents = productDetails.priceCents;
+  }
+
+  getStarsUrl(){
+    return `images/ratings/rating-${this.rating.stars * 10}.png`;
+  }
+
+  getPrice(){
+    return formatCurrency(this.priceCents);
+  }
+
+  extraInfoHTML(){
+    return '';
+  }
+
+}
+
+class Clothing extends Product{
+  sizeChartLink;
+
+  constructor(productDetails){
+    super(productDetails);
+    this.sizeChartLink = productDetails.sizeChartLink;
+  }
+
+  extraInfoHTML(){
+    return `
+      <a href="images/clothing-size-chart.png" target="_blank">
+        Size Chart
+      </a>
+    `;
+  }
+}
+
+
+/*
 export const products = [
   {
     id: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
@@ -692,4 +742,86 @@ export const products = [
     },
     priceCents: 2999
   }
-];
+].map((productDetails) => {
+
+  if(productDetails.type === 'clothing'){
+    return new Clothing(productDetails);
+  }
+  return new Product(productDetails);
+});
+*/
+
+
+
+
+// using XMLHttpRequest()
+
+export let products = [];
+
+export function loadProducts(fun){
+
+  const xhr = new XMLHttpRequest();
+
+  xhr.addEventListener('load',() => {
+    products = JSON.parse(xhr.response).map((productDetails) => {
+      if(productDetails.type === 'clothing'){
+        return new Clothing(productDetails);
+      }
+      return new Product(productDetails); 
+    });
+    console.log('load products');
+    fun();
+  });
+
+  xhr.addEventListener('error', (error) => {
+    console.log('Unexpected error. Please try later.');
+    console.log(error);
+  })
+
+  xhr.open('Get','https://supersimplebackend.dev/products');
+  xhr.send();
+}
+
+
+
+// using promise & fetch()
+
+export function loadProductsFetch(){  
+  const promise = fetch(
+    'https://supersimplebackend.dev/products'
+  ).then((response) => {
+    return response.json();
+  }).then((productData) => {
+    products = productData.map((productDetails) => {
+      if(productDetails.type === 'clothing'){
+        return new Clothing(productDetails);
+      }
+      return new Product(productDetails); 
+    })
+    console.log('load products');
+  }).catch((error) => {
+    console.log('Unexpected error. Please try later.');
+    console.log(error);
+  });
+  return promise;
+}
+
+
+
+loadProductsFetch().then(() => {
+  console.log('next step');
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
