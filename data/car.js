@@ -3,6 +3,7 @@ class Car{
   brand;
   model;
   speed = 0;
+  isTrunkOpen = false;
 
   constructor(carDetails){
     this.brand = carDetails.brand;
@@ -11,11 +12,29 @@ class Car{
   }
 
   displayInfo(){
-    console.log(`${this.brand}, ${this.model} - Speed: ${this.speed} km/hr`);
+
+    const trunkStatus = this.isTrunkOpen ? 'open' : 'closed';
+    console.log(`${this.brand}, ${this.model} - Speed: ${this.speed} km/hr and Trunk: ${trunkStatus}` );
+    
+  }
+
+  openTrunk(){
+    if(this.speed === 0){
+      this.isTrunkOpen = true;
+    }
+    else{
+      console.log('Cannot open as car is moving');
+    }
+  }
+
+  closeTrunk(){
+    this.isTrunkOpen = false;
   }
 
   go(){
-    this.speed += 5;
+    if(!this.isTrunkOpen){
+      this.speed += 5;
+    }
     if(this.speed > 200){
       this.speed = 200;
     }
@@ -41,31 +60,28 @@ const car2 = new Car({
   
 });
 
- car1.displayInfo();
- car1.go();
- car1.go();
- car1.go();
- car1.go();
- car1.brake();
- car1.displayInfo();
+ car1.displayInfo(); // istrunk = false and speed = 0
+ car1.go(); // speed = 5
+ car1.brake(); // speed = 0 now
+ car1.openTrunk(); // can open the trunk as car is not moving 
+ car1.go(); // cannot implement go() as trunk is open
+ car1.displayInfo();  // open
 
- car2.displayInfo();
+ car2.displayInfo(); // close
  car2.go();
  car2.go();
  car2.go();
- car2.go();
+ car2.go(); // speed = 20
  car2.brake();
+ car2.brake(); // speed = 10
+ car2.openTrunk(); // cannot open as speed = 10, i.e car is moving
+ car2.displayInfo(); // close
  car2.brake();
- car2.displayInfo();
+ car2.brake(); //  speed = 0 
+ car2.openTrunk(); // can open now
+ car2.displayInfo(); // open
 
 
 
- /*
 
-Toyato, Corolla - Speed: 0 km/hr
-Toyato, Corolla - Speed: 15 km/hr
-Tesla, Model 3 - Speed: 0 km/hr
-Tesla, Model 3 - Speed: 10 km/hr
-
- */
 
