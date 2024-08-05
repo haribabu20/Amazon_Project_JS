@@ -77,10 +77,15 @@ async function loadPage(){
 
   try{
 
-    //throw 'error1';
-    await loadProductsFetch();
+    await Promise.all([
+      loadProductsFetch(),
+      loadCartFetch()
+    ]);
 
-    await loadCartFetch();
+    
+    //await loadProductsFetch();
+    //await loadCartFetch();
+
 
     // const value = await new Promise((resolve, reject) => {
     //   loadCart(() => {
