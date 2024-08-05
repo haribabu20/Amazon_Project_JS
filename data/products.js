@@ -798,7 +798,7 @@ export function loadProductsFetch(){
       }
       return new Product(productDetails); 
     })
-    console.log('load products');
+    console.log('load products - using fetch');
   }).catch((error) => {
     console.log('Unexpected error. Please try later.');
     console.log(error);
