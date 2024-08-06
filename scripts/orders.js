@@ -36,7 +36,7 @@ async function loadPage(){
 
         <div class="order-details-grid">
           ${productsListHTML(order)}
-        <div>
+        </div>
         
       </div> 
       `;
@@ -49,7 +49,7 @@ async function loadPage(){
         order.products.forEach((productDetails)=>{
           let product = getProduct(productDetails.productId);
           
-          productListHTML +=
+          productListHtml +=
           `
           <div class="product-image-container">
             <img src="${product.image}">
